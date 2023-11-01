@@ -1,13 +1,19 @@
-from abc import ABC
+from .engine import Engine
+from datetime import date
 
-from car import Car
 
+class WilloughbyEngine(Engine):
+    _last_service_mileage: int = 0
+    _current_mileage: int = 0
 
-class WilloughbyEngine(Car, ABC):
-    def __init__(self, last_service_date, current_mileage, last_service_mileage):
-        super().__init__(last_service_date)
-        self.current_mileage = current_mileage
-        self.last_service_mileage = last_service_mileage
+    def __init__(self, last_service_mileage: int, current_mileage: int):
+        self._last_service_mileage = last_service_mileage
+        self._current_mileage = current_mileage
 
-    def engine_should_be_serviced(self):
-        return self.current_mileage - self.last_service_mileage > 60000
+    def _service_engine(self):
+        if self._current_mileage - self._last_service_mileage >= 60_000:
+            print("Engine: Your engine is serviced!")
+            return True
+
+        print("Engine: Your engine is in good condition, No service is required!")
+        return False

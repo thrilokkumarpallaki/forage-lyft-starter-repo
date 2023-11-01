@@ -1,15 +1,17 @@
-from abc import ABC
+from .engine import Engine
+from datetime import date
 
-from car import Car
 
+class SternmanEngine(Engine):
+    _is_warning_indicator_on: bool = False
 
-class SternmanEngine(Car, ABC):
-    def __init__(self, last_service_date, warning_light_is_on):
-        super().__init__(last_service_date)
-        self.warning_light_is_on = warning_light_is_on
+    def __init__(self, is_warning_indicator_on: bool):
+        self._is_warning_indicator_on = is_warning_indicator_on
 
-    def engine_should_be_serviced(self):
-        if self.warning_light_is_on:
+    def need_service(self) -> bool:
+        if self._is_warning_indicator_on:
+            print("Engine: Your engine is serviced!")
             return True
-        else:
-            return False
+
+        print("Engine: Your engine is in good condition, No service is required!")
+        return False
